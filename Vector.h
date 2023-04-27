@@ -3,19 +3,21 @@
 
 #include <algorithm>
 #include <iostream>
-#include <stdexcept>
+#include <stdexcept> //예외클래스 정의하는 헤더
 #include "dsexceptions.h"
 #include <iostream>
 
 using namespace std;
 
-template <typename Object>
+template <typename Object>//제네릭프로그래밍 위한 template
 class Vector
 {
   public:
-    explicit Vector( int initSize = 0 )
-      : theSize{ initSize }, theCapacity{ initSize + SPARE_CAPACITY }
-      { objects = new Object[ theCapacity ]; }
+      //생성자 선언->Vector( int initSize = 0 ) 매개변수가 0으로 기본적으로 설정되어 있어서 인자를 전달안하고도 객체생성 가능
+    explicit Vector( int initSize = 0 )//explicit <> implicit 명시적인 생정자임을 나타낸다. 암시적 형변환 방지.
+      : theSize{ initSize }, theCapacity{ initSize + SPARE_CAPACITY }//멤버 이니셜라이저,,생성자에서 멤버변수 초기화위함.
+      { objects = new Object[ theCapacity ]; }//생성자의 몸체,objects멤버변수를 동적으로 할당된 배열로 초기화.new로 theCapacity만큼크기 가지는 Object타입의 배열을 생성하고 objects멤버변수에 할당한다. 이로써 Vector객체가 생성될때, 배열 메모리도 함께 하당되어 초기화 된다.
+
       
     Vector(initializer_list<Object> init)
         : theSize{ int(init.size()) }, theCapacity{ theSize + SPARE_CAPACITY }
