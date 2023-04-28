@@ -18,10 +18,15 @@ int main( )
     {
         Vector<int> int_array1 = { 1, 2, 3 };
         Vector<int> int_array2 = { 1, 2, 3, 4, 5 };
-
+        
         cout << int_array1;
         cout << int_array2;
         cout << int_array1 + int_array2 << endl;
+        
+   
+     
+
+
 
         Vector<string> str_array1 = { "cat", "dog", "tiger" };
         Vector<string> str_array2 = { "one", "two", "three", "four", "five" };

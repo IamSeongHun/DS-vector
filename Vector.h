@@ -5,7 +5,6 @@
 #include <iostream>
 #include <stdexcept> //예외클래스 정의하는 헤더
 #include "dsexceptions.h"
-#include <iostream>
 
 using namespace std;
 
@@ -186,22 +185,55 @@ class Vector
         //-----------------------------------------------------------------------------//
         // 실행 결과를 참고해서 적당한 코드를 추가해주세요. 
         //-----------------------------------------------------------------------------//
-
+        
         Vector<Object> operator+(const Vector& rhs)
         {
             Vector<Object> retVal; 
+            //this->push_back(0)
+            int sizeOfFirst=this->size();
+            int sizeOfSecond = rhs.size();
+        
+            int count = (sizeOfFirst >= sizeOfSecond) ? sizeOfFirst : sizeOfSecond;
+            /*
+            if (count == sizeOfFirst) {
+                for (int i=0; i < count; i++) {
+                    this->push_back(0);
+                }
+            }
+            else {
+                for (int i = 0; i < count; i++) {
+                    rhs.push_back(0);
+                }
+            }
+            */
+
+            for (int i = 0; i < count; i++) {
+                retVal.push_back(objects[i] + rhs[i]);
+            }
+
             return retVal;
         }
 
         Vector<Object> operator+(const Object& rhs)
         {
             Vector<Object> retVal;
+
+            int sizeOfFirst = this->size();
+            for (int i = 0; i < sizeOfFirst; i++) {
+                retVal.push_back(objects[i] + rhs);
+            }
+           
             return retVal;
         }
 
         Vector<Object> operator+(Object&& rhs)
         {
             Vector<Object> retVal;
+            int sizeOfFirst = this->size();
+            for (int i = 0; i < sizeOfFirst; i++) {
+                retVal.push_back(objects[i] + rhs);
+            }
+
             return retVal;
         }
 
