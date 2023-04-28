@@ -193,19 +193,10 @@ class Vector
             int sizeOfFirst=this->size();
             int sizeOfSecond = rhs.size();
         
-            int count = (sizeOfFirst >= sizeOfSecond) ? sizeOfFirst : sizeOfSecond;
-            /*
-            if (count == sizeOfFirst) {
-                for (int i=0; i < count; i++) {
-                    this->push_back(0);
-                }
-            }
-            else {
-                for (int i = 0; i < count; i++) {
-                    rhs.push_back(0);
-                }
-            }
-            */
+            int count = (sizeOfFirst >= sizeOfSecond) ? sizeOfFirst : sizeOfSecond;//count의 값은 제일큰 벡터 사이즈
+            this->reserve(count);
+            
+            
 
             for (int i = 0; i < count; i++) {
                 retVal.push_back(objects[i] + rhs[i]);
@@ -216,6 +207,9 @@ class Vector
 
         Vector<Object> operator+(const Object& rhs)
         {
+            if (theSize == theCapacity)
+                reserve(2 * theCapacity + 1);
+
             Vector<Object> retVal;
 
             int sizeOfFirst = this->size();
@@ -241,12 +235,40 @@ class Vector
 
         iterator insert(iterator itr, const Object& x)
         {      
-            return begin();
+            
+            // 새로운 요소를 추가하기 위해 빈 공간을 만듭니다.
+            if (theSize == theCapacity)
+                reserve(2 * theCapacity + 1);
+
+            // itr을 포함한 뒤쪽 요소들을 한 칸씩 오른쪽으로 옮깁니다.
+            iterator dest = end();
+            iterator src = dest - 1;
+            while (dest != itr) {
+                *dest-- = *src--;
+            }
+
+            // itr 위치에 x를 삽입합니다.
+            *itr = x;
+            ++theSize;
+
+            // 삽입된 요소의 위치를 반환합니다.
+            return itr;
         }
 
         iterator erase(iterator itr)
         {
-            return begin();
+            // itr을 제외한 뒤쪽 요소들을 한 칸씩 왼쪽으로 이동합니다.
+            iterator dest = itr;
+            iterator src = itr + 1;
+            while (src != end()) {
+                *dest++ = *src++;
+            }
+
+            // 마지막 요소를 제거합니다.
+            --theSize;
+
+            // 제거된 요소의 위치를 반환합니다.
+            return itr;
         }
 
         //-----------------------------------------------------------------------------//
