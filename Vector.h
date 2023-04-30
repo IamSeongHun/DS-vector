@@ -186,23 +186,45 @@ class Vector
         // 실행 결과를 참고해서 적당한 코드를 추가해주세요. 
         //-----------------------------------------------------------------------------//
         
-        Vector<Object> operator+(const Vector& rhs)
+        Vector<Object> operator+(const Vector& rhs) 
         {
-            Vector<Object> retVal; 
-            //this->push_back(0)
-            int sizeOfFirst=this->size();
-            int sizeOfSecond = rhs.size();
+            Vector<Object> retVal;
         
-            int count = (sizeOfFirst >= sizeOfSecond) ? sizeOfFirst : sizeOfSecond;//count의 값은 제일큰 벡터 사이즈
-            this->reserve(count);
-            
-            
 
-            for (int i = 0; i < count; i++) {
-                retVal.push_back(objects[i] + rhs[i]);
+            int sizeOfFirst = this->size();
+            int sizeOfSecond = rhs.size();
+
+            if(sizeOfFirst== sizeOfSecond){
+                for (int i = 0; i < sizeOfFirst; i++) {
+                    retVal.push_back(objects[i] + rhs[i]);
+                }
+                return retVal;
             }
 
-            return retVal;
+            else {
+                int count = (sizeOfFirst <= sizeOfSecond) ? sizeOfFirst : sizeOfSecond;//count의 값은 더 작은 벡터 사이즈
+
+
+
+                for (int i = 0; i < count; i++) {
+                    retVal.push_back(objects[i] + rhs[i]);
+                }
+
+                //나머지에는 남는 요소들 pushback한다.
+                if (sizeOfFirst > sizeOfSecond) {
+                    for (int i = sizeOfSecond; i < sizeOfFirst; ++i) {
+                        retVal.push_back(objects[i]);
+                    }
+
+                }
+                else {
+                    for (int i = sizeOfFirst; i < sizeOfSecond; ++i) {
+                        retVal.push_back(rhs[i]);
+                    }
+                }
+
+                return retVal;
+            }
         }
 
         Vector<Object> operator+(const Object& rhs)
@@ -258,10 +280,12 @@ class Vector
         iterator erase(iterator itr)
         {
             // itr을 제외한 뒤쪽 요소들을 한 칸씩 왼쪽으로 이동합니다.
-            iterator dest = itr;
-            iterator src = itr + 1;
-            while (src != end()) {
-                *dest++ = *src++;
+            iterator next = itr;
+            iterator prev = itr + 1;
+            while (prev != end()) {
+                *next = *prev;
+                ++next;
+                ++prev;
             }
 
             // 마지막 요소를 제거합니다.
