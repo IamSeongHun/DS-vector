@@ -210,7 +210,6 @@ class Vector
                     retVal.push_back(objects[i] + rhs[i]);
                 }
 
-                //나머지에는 남는 요소들 pushback한다.
                 if (sizeOfFirst > sizeOfSecond) {
                     for (int i = sizeOfSecond; i < sizeOfFirst; ++i) {
                         retVal.push_back(objects[i]);
@@ -258,28 +257,23 @@ class Vector
         iterator insert(iterator itr, const Object& x)
         {      
             
-            // 새로운 요소를 추가하기 위해 빈 공간을 만듭니다.
             if (theSize == theCapacity)
                 reserve(2 * theCapacity + 1);
 
-            // itr을 포함한 뒤쪽 요소들을 한 칸씩 오른쪽으로 옮깁니다.
-            iterator dest = end();
-            iterator src = dest - 1;
-            while (dest != itr) {
-                *dest-- = *src--;
+            iterator next = end();
+            iterator prev = next - 1;
+            while (next != itr) {
+                *next-- = *prev--;
             }
 
-            // itr 위치에 x를 삽입합니다.
             *itr = x;
             ++theSize;
 
-            // 삽입된 요소의 위치를 반환합니다.
             return itr;
         }
 
         iterator erase(iterator itr)
         {
-            // itr을 제외한 뒤쪽 요소들을 한 칸씩 왼쪽으로 이동합니다.
             iterator next = itr;
             iterator prev = itr + 1;
             while (prev != end()) {
@@ -288,10 +282,8 @@ class Vector
                 ++prev;
             }
 
-            // 마지막 요소를 제거합니다.
             --theSize;
 
-            // 제거된 요소의 위치를 반환합니다.
             return itr;
         }
 
